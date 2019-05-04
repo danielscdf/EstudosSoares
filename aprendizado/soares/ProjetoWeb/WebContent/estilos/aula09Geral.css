@@ -1,0 +1,28 @@
+@CHARSET "UTF-8";
+
+img#google{
+	width="200"; 
+	height="150";
+    display: block;
+    margin-left: auto;
+    margin-right: auto
+}
+
+div#busca{
+	background-color: #d3d7cf;
+	text-align: center;
+}
+div#busca input#pesquisa{
+	width="2000"; 
+	height="150";
+}
+
+div#frames{
+	display: block;
+    margin-left: auto;
+    margin-right: auto
+}
+
+footer#rodape{
+	text-align: center;
+}
