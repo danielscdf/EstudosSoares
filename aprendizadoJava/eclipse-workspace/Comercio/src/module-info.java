@@ -1,0 +1,3 @@
+module Comercio {
+	requires junit;
+}
