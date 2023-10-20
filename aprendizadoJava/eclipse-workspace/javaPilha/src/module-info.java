@@ -1,0 +1,9 @@
+/**
+ * 
+ */
+/**
+ * @author VAIO
+ *
+ */
+module javaPilha {
+}
