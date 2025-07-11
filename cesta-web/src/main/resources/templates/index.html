@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Montar Cesta</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container py-3">
+    <h2 class="mb-4">Montar Cesta</h2>
+
+    <div class="row mb-3">
+        <div class="col">
+            <select class="form-select" id="categoria">
+                <option disabled selected>Escolha a categoria</option>
+                <th:block th:each="cat : ${categorias}">
+                    <option th:text="${cat}" th:value="${cat}"></option>
+                </th:block>
+            </select>
+        </div>
+        <div class="col">
+            <select class="form-select" id="item"></select>
+        </div>
+        <div class="col">
+            <input type="number" id="quantidade" value="1" class="form-control">
+        </div>
+        <div class="col">
+            <button class="btn btn-primary w-100" onclick="adicionarItem()">Adicionar</button>
+        </div>
+    </div>
+
+    <table class="table table-bordered">
+        <thead>
+        <tr><th>Item</th><th>Qtd</th><th>Valor Unit.</th><th>Total</th><th></th></tr>
+        </thead>
+        <tbody id="cesta-body"></tbody>
+    </table>
+
+    <h4>Total: R$ <span id="total">0.00</span></h4>
+</div>
+<style>
+    .cid-uMuajYoqgR {
+        padding-top: 5rem;
+        padding-bottom: 5rem;
+        background-image: url("background-cesta.jpg");
+    }
+    
+    .cid-uMuajYoqgR .mbr-fallback-image.disabled {
+        display: none;
+    }
+    
+    .cid-uMuajYoqgR .mbr-fallback-image {
+        display: block;
+        background-size: cover;
+        background-position: center center;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        top: 0;
+    }
+    
+    .cid-uMuajYoqgR .items-wrapper {
+        margin: 0 -5px;
+    }
+    
+    .cid-uMuajYoqgR .title-wrapper .mbr-section-title {
+        margin-bottom: 60px;
+    }
+    
+    @media (max-width: 992px) {
+        .cid-uMuajYoqgR .title-wrapper .mbr-section-title {
+            margin-bottom: 40px;
+        }
+    }
+    
+    .cid-uMuajYoqgR .item {
+        padding: 0 5px;
+        margin-bottom: 10px;
+    }
+    
+    @media (max-width: 992px) {
+        .cid-uMuajYoqgR .item {
+            margin-bottom: 16px;
+        }
+    }
+    
+    .cid-uMuajYoqgR .item:hover .item-wrapper .item-img .btn-wrap,
+    .cid-uMuajYoqgR .item:focus .item-wrapper .item-img .btn-wrap {
+        opacity: 1;
+    }
+    
+    .cid-uMuajYoqgR .item .item-wrapper {
+        height: 100%;
+        border: 5px solid var(--primary-dark-color);
+        background-color: var(--primary-dark-color);
+    }
+    
+    .cid-uMuajYoqgR .item .item-wrapper .item-img {
+        position: relative;
+        height: 415px;
+        border-radius: 26px 26px 0 0;
+        overflow: hidden;
+    }
+    
+    .cid-uMuajYoqgR .item .item-wrapper .item-img .image-wrap {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+    }
+    
+    .cid-uMuajYoqgR .item .item-wrapper .item-img .image-wrap img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 0 !important;
+    }
+    
+    @media (max-width: 992px) {
+        .cid-uMuajYoqgR .item .item-wrapper .item-img .image-wrap img {
+            transform: none;
+        }
+    }
+    
+    .cid-uMuajYoqgR .item .item-wrapper .item-img .btn-wrap {
+        position: relative;
+        z-index: 1;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: var(--primary-light-color);
+        opacity: 0;
+        pointer-events: none;
+        transition: all 0.3s ease-in-out;
+    }
+    
+    .cid-uMuajYoqgR .item .item-wrapper .item-img .btn-wrap .mbr-section-btn {
+        pointer-events: visible;
+    }
+    
+    .cid-uMuajYoqgR .item .item-wrapper .item-content {
+        padding: 28px 28px 23px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+    }
+    
+    @media (max-width: 992px) {
+        .cid-uMuajYoqgR .item .item-wrapper .item-content {
+            padding: 20px 20px 15px;
+        }
+    }
+    
+    .cid-uMuajYoqgR .item .item-wrapper .item-content .card-title {
+        margin-bottom: 0;
+    }
+    
+    .cid-uMuajYoqgR .item .item-wrapper .item-content .icon-wrapper .mbr-iconfont {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 45px;
+        height: 45px;
+        min-width: 45px;
+        border: 1px solid var(--primary-dark-text);
+        font-size: 16px;
+        color: var(--primary-dark-text);
+        border-radius: 100%;
+        transition: all 0.3s ease-in-out;
+        margin-left: 20px;
+    }
+    
+    .cid-uMuajYoqgR .item .item-wrapper .item-content .icon-wrapper .mbr-iconfont:hover,
+    .cid-uMuajYoqgR .item .item-wrapper .item-content .icon-wrapper .mbr-iconfont:focus {
+        opacity: .7;
+    }
+    
+    .cid-uMuajYoqgR .mbr-section-title {
+        color: var(--primary-dark-color);
+        text-align: center;
+    }
+    
+    .cid-uMuajYoqgR .card-title {
+        color: #f24d4a;
+    }
+    
+    .cid-uMuajYoqgR .card-title,
+    .cid-uMuajYoqgR .icon-wrapper {
+        color: var(--primary-dark-text);
+    }
+    
+</style>
+<section class="features03 decorm5 cid-uMuajYoqgR mbr-parallax-background" id="features-3-uMuajYoqgR">
+    <div class="mbr-overlay" style="opacity: 0.9; background-color: var(--primary-light-color)"></div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="title-wrapper">
+                    <h2 class="mbr-section-title mbr-fonts-style display-2 animate__animated animate__delay-1s animate__fadeIn">Cestas</h2>
+                </div>
+            </div>
+        </div>
+        <div class="row items-wrapper">
+            <div class="item features-image col-12 col-lg-6 col-xl-3 animate__animated animate__delay-1s animate__fadeIn">
+                <div class="item-wrapper">
+                    <div class="item-img">
+                        <div class="image-wrap">
+                            <img alt="Mobirise" src="https://proxy.electricblaze.com/?u=https%3A%2F%2Fimages.unsplash.com%2Fphoto-1525904097878-94fb15835963%3Fixid%3DM3w0Mzc5fDB8MXxzZWFyY2h8NXx8cHJvZHVjdHN8ZW58MHwwfHx8MTc0ODM2NzQyOXww%26ixlib%3Drb-4.1.0%26auto%3Dformat%26fit%3Dcrop%26w%3D1200%26q%3D80&amp;e=1752192000&amp;s=Z6yErUdZoyQPBh3qjZ3nVL-ImsOy82XD1-WzTarF-2M">
+                        </div>
+                        <div class="btn-wrap">
+                            <div class="mbr-section-btn">
+                                <a class="btn btn-primary display-4" href="https://mobiri.se">See All</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item-content">
+                        <h4 class="card-title mbr-fonts-style display-4">Fast Shipping</h4>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="item features-image col-12 col-lg-6 col-xl-3 animate__animated animate__delay-1s animate__fadeIn">
+                <div class="item-wrapper">
+                    <div class="item-img">
+                        <div class="btn-wrap">
+                            <img alt="Mobirise" src="https://proxy.electricblaze.com/?u=https%3A%2F%2Fimages.unsplash.com%2Fflagged%2Fphoto-1556637640-2c80d3201be8%3Fixid%3DM3w0Mzc5fDB8MXxzZWFyY2h8MjJ8fHByb2R1Y3RzfGVufDB8MHx8fDE3NDgzNjc0Mjl8MA%26ixlib%3Drb-4.1.0%26auto%3Dformat%26fit%3Dcrop%26w%3D1200%26q%3D80&amp;e=1752192000&amp;s=xiW2ya0XTrETBrZIIOBnmjRu_g86rb1XDf5Tgt_dKZc">
+                            <a class="btn btn-primary" href="https://mobiri.se">See All</a>
+                        </div>
+                    </div>
+                    <div class="item-content">
+                        <h4 class="card-title mbr-fonts-style display-4">Secure Payments</h4>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="item features-image col-12 col-lg-6 col-xl-3 animate__animated animate__delay-1s animate__fadeIn">
+                <div class="item-wrapper">
+                    <div class="item-img">
+                        <div class="image-wrap">
+                            <img alt="Mobirise" src="https://proxy.electricblaze.com/?u=https%3A%2F%2Fimages.unsplash.com%2Fphoto-1627384113743-6bd5a479fffd%3Fixid%3DM3w0Mzc5fDB8MXxzZWFyY2h8M3x8cHJvZHVjdHN8ZW58MHwwfHx8MTc0ODM2NzQyOXww%26ixlib%3Drb-4.1.0%26auto%3Dformat%26fit%3Dcrop%26w%3D1200%26q%3D80&amp;e=1752192000&amp;s=w5Su8Am5TYB3NfBDhBC4_Md6sTHKnxvg97giCig1y8s">
+                        </div>
+                        <div class="btn-wrap">
+                            <div class="mbr-section-btn">
+                                <a class="btn btn-primary display-4" href="https://mobiri.se">See All</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item-content">
+                        <h4 class="card-title mbr-fonts-style display-4">Easy Returns</h4>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="item features-image col-12 col-lg-6 col-xl-3 animate__animated animate__delay-1s animate__fadeIn">
+                <div class="item-wrapper">
+                    <div class="item-img">
+                        <div class="image-wrap">
+                            <img alt="Mobirise" src="https://proxy.electricblaze.com/?u=https%3A%2F%2Fimages.unsplash.com%2Fphoto-1515955656352-a1fa3ffcd111%3Fixid%3DM3w0Mzc5fDB8MXxzZWFyY2h8MjV8fHByb2R1Y3RzfGVufDB8MHx8fDE3NDgzNjc0Mjl8MA%26ixlib%3Drb-4.1.0%26auto%3Dformat%26fit%3Dcrop%26w%3D1200%26q%3D80&amp;e=1752192000&amp;s=fOTO4FDBFmMIW__9ybL_XgGO1uOhaC0705rGf9ExLm8">
+                        </div>
+                        <div class="btn-wrap">
+                            <div class="mbr-section-btn">
+                                <a class="btn btn-primary display-4" href="https://mobiri.se">See All</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="item-content">
+                        <h4 class="card-title mbr-fonts-style display-4">24/7 Support</h4>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    let itensCategoria = {};
+    let cesta = [];
+
+    document.getElementById("categoria").addEventListener("change", async function () {
+        const categoria = this.value;
+        const resp = await fetch(`/itens?categoria=${categoria}`);
+        const data = await resp.json();
+        itensCategoria[categoria] = data;
+        const itemSelect = document.getElementById("item");
+        itemSelect.innerHTML = "";
+        data.forEach(i => {
+            const opt = document.createElement("option");
+            opt.textContent = i.descricao;
+            opt.value = JSON.stringify(i);
+            itemSelect.appendChild(opt);
+        });
+    });
+
+    function adicionarItem() {
+        const itemData = JSON.parse(document.getElementById("item").value);
+        const qtd = parseInt(document.getElementById("quantidade").value);
+        cesta.push({ item: itemData, qtd });
+        renderTabela();
+    }
+
+    function removerItem(index) {
+        cesta.splice(index, 1);
+        renderTabela();
+    }
+
+    function renderTabela() {
+        const body = document.getElementById("cesta-body");
+        body.innerHTML = "";
+        let total = 0;
+        cesta.forEach((linha, idx) => {
+            const subtotal = linha.qtd * linha.item.valor;
+            total += subtotal;
+            body.innerHTML += `
+                <tr>
+                    <td>${linha.item.descricao}</td>
+                    <td>${linha.qtd}</td>
+                    <td>R$ ${linha.item.valor.toFixed(2)}</td>
+                    <td>R$ ${subtotal.toFixed(2)}</td>
+                    <td><button class="btn btn-sm btn-danger" onclick="removerItem(${idx})">Remover</button></td>
+                </tr>`;
+        });
+        document.getElementById("total").textContent = total.toFixed(2);
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,34 @@
+{
+  "products": [
+    {
+      "id": "1",
+      "name": "Caneta Bic Preta",
+      "price": 5.89
+    },
+    {
+      "id": "2",
+      "name": "Notebook Mac Pro",
+      "price": 12000.89
+    },
+    {
+      "id": "3",
+      "name": "Samsung S20 Fe",
+      "price": 5000.89
+    },
+    {
+      "id": "8570",
+      "name": "Logan",
+      "price": 19000.54
+    },
+    {
+      "id": "4",
+      "name": "Moto",
+      "price": 19000.89
+    },
+    {
+      "id": "ef68",
+      "name": "Bola",
+      "price": 100.58
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+Criação do backend
+- Criar arquivo package.json (Mapeamento de scripts  "scripts": {"start": "json-server --watch db.json --port 3001"}
+npm init -y
+- Criar pasta node_modules e package-lock.json
+npm i json-server
+- Iniciar a aplicação Node.js
+npm start
+
+
+Angular
+Processo de inicialização da APP
+main.ts -> AppModulo(Carregado e o primeiro componente será chamado está declarado no atributo bootstrap) -> AppComponent
+Um componente possui um arquivo HTML, CSS e um TS (Pode ser 1 arquivo só, mas não é boa prática)
+Anatomia do módulo: Possui 5 atributos Declarations, imports, exports, providers e bootstrap.
+Declarations: components, diretivas e pipes;
+Imports: modulo...
+Exports: components, diretivas e pipes;
+Providers: service...
+Bootstrap: AppComponent;

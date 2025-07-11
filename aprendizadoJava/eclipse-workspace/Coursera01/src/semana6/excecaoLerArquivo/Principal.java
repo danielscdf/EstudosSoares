@@ -6,7 +6,7 @@ public class Principal {
 	public static void main(String[] args) throws LeituraArquivoException {
 		HashMap<String, String> mapTeste = new HashMap<String, String>();
 		mapTeste = ProcessadorArquivo.processar(
-				"/media/danielscdf/D/desenv/EstudosSoares/aprendizadoJava/eclipse-workspace/Coursera01/src/semana6/excecaoLerArquivo/Arquivo.txt");
+				"src/semana6/excecaoLerArquivo/Arquivo.txt");
 		System.out.println(mapTeste);
 		String linha = "Nome->Daniel";
 		if(linha.contains("->")){

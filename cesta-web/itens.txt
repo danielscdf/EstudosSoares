@@ -1,0 +1,4 @@
+Perecíveis;Leite;3.25
+Perecíveis;Queijo;12.00
+NaoPereciveis;Arroz;5.99
+NaoPereciveis;Feijão;6.50

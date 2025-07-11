@@ -10,7 +10,7 @@ public class Principal {
 		String resposta;
 		boolean acertouPalavra;
 		BancoDePalavras arquivoPalavraSecreta = new BancoDePalavras(new File(
-				"/media/daniel/D/desenv/EstudosSoares/aprendizadoJava/eclipse-workspace/Coursera01/src/semana6/jogoDasPalavras/Palavras.txt"));
+				"src/semana6/jogoDasPalavras/Palavras.txt"));
 		System.out.println(
 				"************************************************************\n***************JOGO DAS PALAVRAS EMBARELHADAS***************\n************************************************************\n");
 		FabricaMecanicaDoJogo fabricaMecanicaDoJogo = new FabricaMecanicaDoJogo();
